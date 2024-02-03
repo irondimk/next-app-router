@@ -240,3 +240,49 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+export async function fetchComments(): Promise<Array<{id: number, name: string}>> {
+  const result = await fetch('https://jsonplaceholder.typicode.com/comments').then(response => response.json())
+      .then(json => json)
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  return result.slice(0,10);
+
+}
+
+export async function fetchUsers(): Promise<Array<{id: number, name: string}>> {
+  try {
+    const result = await fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json())
+        .then(json => json)
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    return result;
+  } catch (error) {
+    throw new Error('Failed to fetch users data.');
+  }
+}
+
+export async function fetchUserList(params: {pageSize?: string, page?: string}): Promise<Array<{id: number, name: string}>> {
+  try {
+    const result = await fetch(`https://jsonplaceholder.typicode.com/users?_page=${params.page || 1}&_limit=${params.pageSize || 2}`).then(response => response.json())
+        .then(json => json)
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    return result;
+  } catch (error) {
+    throw new Error('Failed to fetch users data.');
+  }
+}
+
+export async function fetchUserById(id: string): Promise<{id: number, name: string}> {
+  try {
+    const result = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`).then(response => response.json())
+        .then(json => json)
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    return result;
+  } catch (error) {
+    throw new Error('Failed to fetch users data.');
+  }
+}
