@@ -129,3 +129,17 @@ export async function authenticate(
         throw error;
     }
 }
+
+export async function updateCustomerName(id: string, formData: FormData) {
+    const name = formData.get('name') as string;
+
+    try {
+        await sql`UPDATE customers SET name=${name} WHERE id = ${id}`;
+    } catch (error) {
+        // throw error;
+        return 'error';
+    }
+
+    revalidatePath(`/dashboard/customers/${id}`);
+    return 'ok'
+}
